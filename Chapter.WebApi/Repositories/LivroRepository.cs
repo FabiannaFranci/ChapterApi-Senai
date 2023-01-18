@@ -27,6 +27,11 @@ namespace Chapter.WebApi.Repositories
             _chaptercontext.SaveChanges();
         }
 
+        public Livro BuscarPorId(int id)
+        {
+            return _chaptercontext.Livros.Find(id);
+
+        }
 
         public void Cadastrar(Livro livro)
         {
@@ -46,5 +51,7 @@ namespace Chapter.WebApi.Repositories
         {
             return _chaptercontext.Livros.ToList();
         }
+
+
     }
 }

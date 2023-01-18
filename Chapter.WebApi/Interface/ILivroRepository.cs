@@ -11,7 +11,7 @@ namespace Chapter.WebApi.Interface
 
     void Deletar (int id); 
 
-    
+    Livro BuscarPorId (int id);  
     }
 }
 

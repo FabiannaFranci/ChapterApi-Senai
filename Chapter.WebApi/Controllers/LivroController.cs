@@ -1,7 +1,5 @@
 ﻿using Chapter.WebApi.Interface;
 using Chapter.WebApi.Models;
-using Chapter.WebApi.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chapter.WebApi.Controllers
@@ -11,10 +9,10 @@ namespace Chapter.WebApi.Controllers
     [ApiController]
     public class LivroController : ControllerBase
     {
-        private readonly LivroRepository _livroRepository;
-        public LivroController(LivroRepository livroRepository)
+        private readonly ILivroRepository _iLivroRepository;
+        public LivroController(ILivroRepository iLivroRepository)
         {
-            _livroRepository = livroRepository;
+            _iLivroRepository = iLivroRepository;
         }
 
         [HttpGet]
@@ -22,7 +20,7 @@ namespace Chapter.WebApi.Controllers
         {
             try
             {
-                return Ok(_livroRepository.Ler());
+                return Ok(_iLivroRepository.Ler());
             }
             catch (Exception e)
             {
@@ -35,7 +33,7 @@ namespace Chapter.WebApi.Controllers
         {
             try
             {
-                _livroRepository.Cadastrar(livro);
+                _iLivroRepository.Cadastrar(livro);
                 return Ok(livro);
             }
             catch (Exception e)
@@ -49,7 +47,7 @@ namespace Chapter.WebApi.Controllers
         {
             try
             {
-                _livroRepository.Atualizar(id, livro);
+                _iLivroRepository.Atualizar(id, livro);
                 return StatusCode(204); 
             }
             catch (Exception e)
@@ -63,10 +61,23 @@ namespace Chapter.WebApi.Controllers
         {
             try
             {
-                _livroRepository.Deletar(id);
+                _iLivroRepository.Deletar(id);
                 return StatusCode(204);
             }
             catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+        }
+        [HttpGet("id")]
+        public IActionResult GetById(int id)
+        {
+            try
+            {
+                return Ok(_iLivroRepository.BuscarPorId(id));
+            }
+            catch (Exception e )
             {
 
                 throw new Exception(e.Message);
